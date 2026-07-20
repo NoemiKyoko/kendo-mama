@@ -29,11 +29,20 @@ document.querySelectorAll('.energy button').forEach(button => {
 });
 
 complete.addEventListener('click', () => {
+  if (reward === 0) {
+    alert('Prima scegli una missione!');
+    return;
+  }
+
   xp += reward;
   localStorage.setItem('kendoMamaXp', String(xp));
   xpEl.textContent = xp;
+
   result.classList.remove('hidden');
-  result.scrollIntoView({behavior:'smooth'});
+  result.scrollIntoView({ behavior: 'smooth' });
+
+  complete.disabled = true;
+  complete.textContent = 'Quest completata ✓';
 });
 
 if ('serviceWorker' in navigator) {
