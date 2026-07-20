@@ -42,7 +42,24 @@ complete.addEventListener('click', () => {
   result.scrollIntoView({ behavior: 'smooth' });
 
   complete.disabled = true;
-  complete.textContent = 'Quest completata ✓';
+  complete.insertAdjacentHTML(
+  'afterend',
+  '<button id="newQuest">Nuova quest 🌸</button>'
+);
+
+document.getElementById('newQuest').addEventListener('click', () => {
+  reward = 0;
+
+  mission.classList.add('hidden');
+  result.classList.add('hidden');
+
+  document
+    .querySelectorAll('.energy button')
+    .forEach(b => b.classList.remove('selected'));
+
+  complete.disabled = false;
+  complete.textContent = 'Quest completata';
+  document.getElementById('newQuest').remove();
 });
 
 if ('serviceWorker' in navigator) {
