@@ -1,3 +1,7 @@
+// ─────────────────────────────
+// ELEMENTI DELLA PAGINA
+// ─────────────────────────────
+
 const enter = document.getElementById('enter');
 const welcome = document.getElementById('welcome');
 const dojo = document.getElementById('dojo');
@@ -10,17 +14,30 @@ const result = document.getElementById('result');
 
 
 // ─────────────────────────────
+// DATA DI OGGI
+// Formato esempio: 2026-07-20
+// ─────────────────────────────
+
+const today = new Date().toLocaleDateString('en-CA');
+
+
+// ─────────────────────────────
 // XP SALVATI
 // ─────────────────────────────
 
 let xp = Number(localStorage.getItem('kendoMamaXp') || 0);
 let reward = 0;
+let selectedEnergy = '';
 
-xpEl.textContent = xp;
+if (xpEl) {
+  xpEl.textContent = xp;
+}
 
 
 // ─────────────────────────────
 // INGRESSO NEL DOJO
+// Funziona anche se la schermata
+// iniziale è stata eliminata.
 // ─────────────────────────────
 
 if (enter && welcome && dojo) {
@@ -32,100 +49,263 @@ if (enter && welcome && dojo) {
 
 
 // ─────────────────────────────
-// MISSIONI CASUALI
+// ARCHIVIO DELLE MISSIONI
 // ─────────────────────────────
 
 const missions = {
-  4: [
-    '💧 Bevi lentamente un bicchiere d’acqua',
-    '🌬️ Fai qualche respiro lento e profondo',
-    '🧘 Sciogli delicatamente collo e spalle',
-    '🚶 Cammina tranquillamente per casa',
-    '🌱 Concediti una piccola pausa consapevole'
+  low: [
+    'Sciogli delicatamente collo e spalle',
+    'Respira lentamente e rilassa il corpo',
+    'Esegui alcuni movimenti dolci delle braccia',
+    'Fai una breve pausa di mobilità consapevole',
+    'Allunga delicatamente schiena e gambe',
+    'Cammina lentamente concentrandoti sul respiro',
+    'Dedica qualche minuto al rilassamento'
   ],
 
-  9: [
-    '🧘 Esegui una breve sessione di stretching',
-    '🚶 Fai una passeggiata tranquilla',
-    '🌸 Mobilizza dolcemente braccia, spalle e schiena',
-    '💧 Alterna movimento leggero e idratazione',
-    '🌬️ Respira profondamente mentre fai mobilità'
+  medium: [
+    'Esegui una breve sessione di stretching',
+    'Alterna mobilità dolce e respirazione',
+    'Fai una camminata tranquilla e consapevole',
+    'Mobilizza spalle, schiena e bacino',
+    'Esegui una sequenza lenta di allungamento',
+    'Combina respirazione e movimenti controllati',
+    'Dedica qualche minuto alla postura'
   ],
 
-  15: [
-    '🥋 Esegui una breve sessione di suburi controllati',
-    '🚶 Fai una camminata a ritmo sostenuto',
-    '💪 Esegui una sessione leggera di rinforzo',
-    '🧘 Combina mobilità, stretching e respirazione',
-    '⚔️ Ripassa lentamente postura e movimenti di base'
+  high: [
+    'Esegui una breve sessione di suburi controllati',
+    'Combina mobilità, stretching e respirazione',
+    'Esegui una sequenza completa di movimenti dolci',
+    'Alterna camminata, mobilità e rilassamento',
+    'Lavora su postura, equilibrio e respirazione',
+    'Esegui suburi lenti mantenendo il controllo',
+    'Dedica una sessione completa al movimento'
   ]
 };
 
 
 // ─────────────────────────────
-// SCELTA DEL LIVELLO DI ENERGIA
+// SCELTA DELLA MISSIONE DEL GIORNO
+//
+// La missione cambia in base alla data,
+// ma resta uguale per tutta la giornata.
 // ─────────────────────────────
 
-document.querySelectorAll('.energy button').forEach(button => {
-  button.addEventListener('click', () => {
+function getDailyMission(energy) {
+  const missionList = missions[energy];
 
-    document
-      .querySelectorAll('.energy button')
-      .forEach(otherButton => {
-        otherButton.classList.remove('selected');
-      });
+  const dateNumber = Number(
+    today.replaceAll('-', '')
+  );
 
-    button.classList.add('selected');
+  let energyOffset = 0;
 
-    const minutes = Number(button.dataset.minutes);
+  if (energy === 'medium') {
+    energyOffset = 2;
+  }
 
-    reward = Number(button.dataset.xp);
+  if (energy === 'high') {
+    energyOffset = 4;
+  }
 
-    const availableMissions = missions[minutes];
+  const missionIndex =
+    (dateNumber + energyOffset) % missionList.length;
 
-    const randomIndex =
-      Math.floor(Math.random() * availableMissions.length);
-
-    const randomMission =
-      availableMissions[randomIndex];
-
-    missionText.textContent =
-      `${randomMission} • ${minutes} minuti`;
-
-    mission.classList.remove('hidden');
-
-    result.textContent = '';
-  });
-});
+  return missionList[missionIndex];
+}
 
 
 // ─────────────────────────────
-// QUEST COMPLETATA
+// INFORMAZIONI DEI TRE LIVELLI
 // ─────────────────────────────
 
-complete.addEventListener('click', () => {
+const energyData = {
+  low: {
+    minutes: 4,
+    xp: 10,
+    emoji: '🧘'
+  },
 
-  if (reward === 0) {
-    result.textContent =
-      'Prima scegli il tuo livello di energia 🌱';
+  medium: {
+    minutes: 9,
+    xp: 20,
+    emoji: '🧘'
+  },
 
+  high: {
+    minutes: 15,
+    xp: 30,
+    emoji: '🥋'
+  }
+};
+
+
+// ─────────────────────────────
+// CONTROLLO QUEST GIÀ COMPLETATA
+// ─────────────────────────────
+
+const completedDate =
+  localStorage.getItem('kendoMamaCompletedDate');
+
+const savedEnergy =
+  localStorage.getItem('kendoMamaCompletedEnergy');
+
+const questAlreadyCompleted =
+  completedDate === today;
+
+
+// ─────────────────────────────
+// MOSTRA UNA MISSIONE
+// ─────────────────────────────
+
+function showMission(energy) {
+  const data = energyData[energy];
+
+  if (!data || !missionText) {
     return;
   }
 
-  xp += reward;
+  const dailyMission = getDailyMission(energy);
 
-  localStorage.setItem('kendoMamaXp', xp);
+  missionText.textContent =
+    `${data.emoji} ${dailyMission} • ${data.minutes} minuti`;
 
-  xpEl.textContent = xp;
+  selectedEnergy = energy;
+  reward = data.xp;
 
-  result.textContent =
-    `Quest completata! Hai guadagnato ${reward} XP 🌸`;
+  if (mission) {
+    mission.classList.remove('hidden');
+  }
+}
 
-  reward = 0;
 
+// ─────────────────────────────
+// SELEZIONE DEL LIVELLO DI ENERGIA
+// ─────────────────────────────
+
+document
+  .querySelectorAll('.energy button')
+  .forEach(button => {
+    button.addEventListener('click', () => {
+
+      if (questAlreadyCompleted) {
+        return;
+      }
+
+      document
+        .querySelectorAll('.energy button')
+        .forEach(otherButton => {
+          otherButton.classList.remove('selected');
+        });
+
+      button.classList.add('selected');
+
+      const energy =
+        button.dataset.energy ||
+        button.dataset.level;
+
+      showMission(energy);
+    });
+  });
+
+
+// ─────────────────────────────
+// COMPLETAMENTO DELLA QUEST
+// ─────────────────────────────
+
+if (complete) {
+  complete.addEventListener('click', () => {
+
+    if (!selectedEnergy || reward === 0) {
+      if (result) {
+        result.textContent =
+          'Prima scegli il tuo livello di energia 🌸';
+      }
+
+      return;
+    }
+
+    const lastCompletedDate =
+      localStorage.getItem('kendoMamaCompletedDate');
+
+    if (lastCompletedDate === today) {
+      if (result) {
+        result.textContent =
+          'La quest di oggi è già stata completata 🌸';
+      }
+
+      return;
+    }
+
+    xp += reward;
+
+    localStorage.setItem('kendoMamaXp', xp);
+    localStorage.setItem(
+      'kendoMamaCompletedDate',
+      today
+    );
+    localStorage.setItem(
+      'kendoMamaCompletedEnergy',
+      selectedEnergy
+    );
+
+    if (xpEl) {
+      xpEl.textContent = xp;
+    }
+
+    if (result) {
+      result.textContent =
+        `Quest completata! +${reward} XP 🌸`;
+    }
+
+    lockDailyQuest();
+  });
+}
+
+
+// ─────────────────────────────
+// BLOCCA LA QUEST FINO A DOMANI
+// ─────────────────────────────
+
+function lockDailyQuest() {
   document
     .querySelectorAll('.energy button')
     .forEach(button => {
+      button.disabled = true;
       button.classList.remove('selected');
     });
-});
+
+  if (savedEnergy) {
+    const completedButton =
+      document.querySelector(
+        `.energy button[data-energy="${savedEnergy}"],
+         .energy button[data-level="${savedEnergy}"]`
+      );
+
+    if (completedButton) {
+      completedButton.classList.add('selected');
+    }
+
+    showMission(savedEnergy);
+  }
+
+  if (complete) {
+    complete.disabled = true;
+    complete.textContent = 'Quest completata ✓';
+  }
+
+  if (result) {
+    result.textContent =
+      'Oggi hai già completato la tua quest. Torna domani 🌸';
+  }
+}
+
+
+// ─────────────────────────────
+// RIPRISTINO ALL'APERTURA
+// ─────────────────────────────
+
+if (questAlreadyCompleted) {
+  lockDailyQuest();
+}
