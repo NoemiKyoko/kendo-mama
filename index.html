@@ -29,12 +29,10 @@
     <section class="card hero" id="welcome">
 
       <p class="eyebrow">
-        v0.2 · First Step
+        v0.3 · Il cammino
       </p>
 
-      <h1>
-        Kendō Mama
-      </h1>
+      <h1>Kendō Mama</h1>
 
       <p class="jp">
         継続は力なり
@@ -44,11 +42,46 @@
         La continuità è forza.
       </p>
 
-      <img
-        class="nozi-image"
-        src="nozi-kendo-mama.png"
-        alt="Nozi, la mascotte kendoka di Kendō Mama"
-      >
+
+      <div class="nozi-stage">
+
+        <img
+          class="nozi-image"
+          src="nozi-kendo-mama.png"
+          alt="Nozi, la mascotte kendoka di Kendō Mama"
+        >
+
+        <div
+          class="nozi-accessory"
+          id="noziAccessory"
+          aria-hidden="true"
+        >
+          🌱
+        </div>
+
+        <div
+          class="nozi-wink"
+          id="noziWink"
+          aria-hidden="true"
+        >
+          😉
+        </div>
+
+      </div>
+
+
+      <div class="welcome-level">
+
+        <span class="welcome-level-label">
+          Il tuo grado
+        </span>
+
+        <strong id="welcomeLevel">
+          Novizia 🌱
+        </strong>
+
+      </div>
+
 
       <button
         type="button"
@@ -57,6 +90,7 @@
       >
         🌸 Entra nel Dojo
       </button>
+
 
       <p class="hero-note">
         Prototipo personale: ascolta sempre le indicazioni
@@ -73,6 +107,7 @@
       <header class="top">
 
         <div>
+
           <p class="eyebrow">
             Dojo di Noemi
           </p>
@@ -80,10 +115,24 @@
           <h2>
             La quest di oggi
           </h2>
+
+          <p class="level-name" id="levelName">
+            Novizia 🌱
+          </p>
+
         </div>
 
-        <div class="xp">
-          <span id="xp">0</span> XP
+
+        <div class="xp-box">
+
+          <div class="xp">
+            <span id="xp">0</span> XP
+          </div>
+
+          <div class="next-level" id="nextLevel">
+            Prossimo grado: 50 XP
+          </div>
+
         </div>
 
       </header>
@@ -112,7 +161,7 @@
             </span>
 
             <small>
-              4 minuti
+              4 minuti · 10 XP
             </small>
           </button>
 
@@ -126,7 +175,7 @@
             </span>
 
             <small>
-              9 minuti
+              9 minuti · 20 XP
             </small>
           </button>
 
@@ -140,7 +189,7 @@
             </span>
 
             <small>
-              15 minuti
+              15 minuti · 30 XP
             </small>
           </button>
 
@@ -173,6 +222,68 @@
       ></div>
 
 
+      <!-- CALENDARIO -->
+
+      <section class="dashboard-section">
+
+        <div class="section-heading">
+
+          <div>
+            <p class="section-kicker">
+              Costanza
+            </p>
+
+            <h3>
+              Gli ultimi 7 giorni
+            </h3>
+          </div>
+
+          <div class="streak">
+            🔥 <span id="streak">0</span>
+          </div>
+
+        </div>
+
+
+        <div
+          class="week-calendar"
+          id="weekCalendar"
+        ></div>
+
+      </section>
+
+
+      <!-- BADGE -->
+
+      <section class="dashboard-section">
+
+        <div class="section-heading">
+
+          <div>
+            <p class="section-kicker">
+              Traguardi
+            </p>
+
+            <h3>
+              I tuoi badge
+            </h3>
+          </div>
+
+          <div class="badge-counter">
+            <span id="badgeCount">0</span>/6
+          </div>
+
+        </div>
+
+
+        <div
+          class="badges"
+          id="badges"
+        ></div>
+
+      </section>
+
+
       <p class="note">
         Prototipo personale: ascolta sempre le indicazioni
         del medico o dell’ostetrica.
@@ -181,6 +292,15 @@
     </section>
 
   </main>
+
+
+  <!-- PETALI DELLA CELEBRAZIONE -->
+
+  <div
+    class="petal-layer"
+    id="petalLayer"
+    aria-hidden="true"
+  ></div>
 
 
   <script src="app.js"></script>
