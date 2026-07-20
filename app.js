@@ -72,5 +72,3 @@ complete.addEventListener('click', () => {
     document.getElementById('newQuest').remove();
   });
 });
-
-}
