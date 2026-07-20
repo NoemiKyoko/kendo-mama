@@ -2,54 +2,75 @@
 // ELEMENTI DELLA PAGINA
 // ─────────────────────────────
 
-const enter = document.getElementById('enter');
 const welcome = document.getElementById('welcome');
+const enterButton = document.getElementById('enter');
 const dojo = document.getElementById('dojo');
 
-const xpEl = document.getElementById('xp');
-const mission = document.getElementById('mission');
-const missionText = document.getElementById('missionText');
-const complete = document.getElementById('complete');
-const result = document.getElementById('result');
+const xpElement = document.getElementById('xp');
+
+const energyButtons =
+  document.querySelectorAll('.energy button');
+
+const missionBox =
+  document.getElementById('mission');
+
+const missionText =
+  document.getElementById('missionText');
+
+const completeButton =
+  document.getElementById('complete');
+
+const resultBox =
+  document.getElementById('result');
 
 
 // ─────────────────────────────
 // DATA DI OGGI
-// Formato esempio: 2026-07-20
+// Esempio: 2026-07-20
 // ─────────────────────────────
 
-const today = new Date().toLocaleDateString('en-CA');
-
-
-// ─────────────────────────────
-// XP SALVATI
-// ─────────────────────────────
-
-let xp = Number(localStorage.getItem('kendoMamaXp') || 0);
-let reward = 0;
-let selectedEnergy = '';
-
-if (xpEl) {
-  xpEl.textContent = xp;
-}
+const today =
+  new Date().toLocaleDateString('en-CA');
 
 
 // ─────────────────────────────
-// INGRESSO NEL DOJO
-// Funziona anche se la schermata
-// iniziale è stata eliminata.
+// DATI SALVATI
 // ─────────────────────────────
 
-if (enter && welcome && dojo) {
-  enter.addEventListener('click', () => {
-    welcome.classList.add('hidden');
-    dojo.classList.remove('hidden');
-  });
-}
+let xp =
+  Number(localStorage.getItem('kendoMamaXp')) || 0;
+
+let selectedEnergy = null;
+let selectedReward = 0;
 
 
 // ─────────────────────────────
-// ARCHIVIO DELLE MISSIONI
+// LIVELLI DI ENERGIA
+// ─────────────────────────────
+
+const energyData = {
+  low: {
+    minutes: 4,
+    xp: 10,
+    emoji: '🌱'
+  },
+
+  medium: {
+    minutes: 9,
+    xp: 20,
+    emoji: '🌸'
+  },
+
+  high: {
+    minutes: 15,
+    xp: 30,
+    emoji: '⚔️'
+  }
+};
+
+
+// ─────────────────────────────
+// ARCHIVIO MISSIONI
 // ─────────────────────────────
 
 const missions = {
@@ -86,181 +107,99 @@ const missions = {
 
 
 // ─────────────────────────────
-// SCELTA DELLA MISSIONE DEL GIORNO
-//
-// La missione cambia in base alla data,
-// ma resta uguale per tutta la giornata.
+// MOSTRA XP
+// ─────────────────────────────
+
+function updateXpDisplay() {
+  xpElement.textContent = xp;
+}
+
+
+// ─────────────────────────────
+// APRE IL DOJO
+// ─────────────────────────────
+
+function enterDojo() {
+  welcome.classList.add('hidden');
+  dojo.classList.remove('hidden');
+}
+
+
+// ─────────────────────────────
+// SCEGLIE LA MISSIONE DEL GIORNO
+// La missione resta uguale per tutta
+// la giornata.
 // ─────────────────────────────
 
 function getDailyMission(energy) {
   const missionList = missions[energy];
 
-  const dateNumber = Number(
-    today.replaceAll('-', '')
-  );
+  const dateNumber =
+    Number(today.replaceAll('-', ''));
 
-  let energyOffset = 0;
-
-  if (energy === 'medium') {
-    energyOffset = 2;
-  }
-
-  if (energy === 'high') {
-    energyOffset = 4;
-  }
+  const offsets = {
+    low: 0,
+    medium: 2,
+    high: 4
+  };
 
   const missionIndex =
-    (dateNumber + energyOffset) % missionList.length;
+    (dateNumber + offsets[energy])
+    % missionList.length;
 
   return missionList[missionIndex];
 }
 
 
 // ─────────────────────────────
-// INFORMAZIONI DEI TRE LIVELLI
-// ─────────────────────────────
-
-const energyData = {
-  low: {
-    minutes: 4,
-    xp: 10,
-    emoji: '🧘'
-  },
-
-  medium: {
-    minutes: 9,
-    xp: 20,
-    emoji: '🧘'
-  },
-
-  high: {
-    minutes: 15,
-    xp: 30,
-    emoji: '🥋'
-  }
-};
-
-
-// ─────────────────────────────
-// CONTROLLO QUEST GIÀ COMPLETATA
-// ─────────────────────────────
-
-const completedDate =
-  localStorage.getItem('kendoMamaCompletedDate');
-
-const savedEnergy =
-  localStorage.getItem('kendoMamaCompletedEnergy');
-
-const questAlreadyCompleted =
-  completedDate === today;
-
-
-// ─────────────────────────────
-// MOSTRA UNA MISSIONE
+// MOSTRA LA MISSIONE
 // ─────────────────────────────
 
 function showMission(energy) {
   const data = energyData[energy];
 
-  if (!data || !missionText) {
+  if (!data) {
     return;
   }
 
-  const dailyMission = getDailyMission(energy);
+  selectedEnergy = energy;
+  selectedReward = data.xp;
+
+  const dailyMission =
+    getDailyMission(energy);
 
   missionText.textContent =
-    `${data.emoji} ${dailyMission} • ${data.minutes} minuti`;
+    `${data.emoji} ${dailyMission} · ${data.minutes} minuti`;
 
-  selectedEnergy = energy;
-  reward = data.xp;
+  missionBox.classList.remove('hidden');
 
-  if (mission) {
-    mission.classList.remove('hidden');
-  }
+  resultBox.classList.add('hidden');
+  resultBox.innerHTML = '';
 }
 
 
 // ─────────────────────────────
-// SELEZIONE DEL LIVELLO DI ENERGIA
+// EVIDENZIA UN PULSANTE
 // ─────────────────────────────
 
-document
-  .querySelectorAll('.energy button')
-  .forEach(button => {
-    button.addEventListener('click', () => {
-
-      if (questAlreadyCompleted) {
-        return;
-      }
-
-      document
-        .querySelectorAll('.energy button')
-        .forEach(otherButton => {
-          otherButton.classList.remove('selected');
-        });
-
-      button.classList.add('selected');
-
-      const energy =
-        button.dataset.energy ||
-        button.dataset.level;
-
-      showMission(energy);
-    });
+function selectEnergyButton(selectedButton) {
+  energyButtons.forEach(button => {
+    button.classList.remove('selected');
   });
 
+  selectedButton.classList.add('selected');
+}
+
 
 // ─────────────────────────────
-// COMPLETAMENTO DELLA QUEST
+// QUEST GIÀ COMPLETATA?
 // ─────────────────────────────
 
-if (complete) {
-  complete.addEventListener('click', () => {
+function isQuestCompletedToday() {
+  const completedDate =
+    localStorage.getItem('kendoMamaCompletedDate');
 
-    if (!selectedEnergy || reward === 0) {
-      if (result) {
-        result.textContent =
-          'Prima scegli il tuo livello di energia 🌸';
-      }
-
-      return;
-    }
-
-    const lastCompletedDate =
-      localStorage.getItem('kendoMamaCompletedDate');
-
-    if (lastCompletedDate === today) {
-      if (result) {
-        result.textContent =
-          'La quest di oggi è già stata completata 🌸';
-      }
-
-      return;
-    }
-
-    xp += reward;
-
-    localStorage.setItem('kendoMamaXp', xp);
-    localStorage.setItem(
-      'kendoMamaCompletedDate',
-      today
-    );
-    localStorage.setItem(
-      'kendoMamaCompletedEnergy',
-      selectedEnergy
-    );
-
-    if (xpEl) {
-      xpEl.textContent = xp;
-    }
-
-    if (result) {
-      result.textContent =
-        `Quest completata! +${reward} XP 🌸`;
-    }
-
-    lockDailyQuest();
-  });
+  return completedDate === today;
 }
 
 
@@ -268,44 +207,123 @@ if (complete) {
 // BLOCCA LA QUEST FINO A DOMANI
 // ─────────────────────────────
 
-function lockDailyQuest() {
-  document
-    .querySelectorAll('.energy button')
-    .forEach(button => {
-      button.disabled = true;
-      button.classList.remove('selected');
-    });
+function lockQuest() {
+  const savedEnergy =
+    localStorage.getItem('kendoMamaCompletedEnergy');
 
-  if (savedEnergy) {
-    const completedButton =
-      document.querySelector(
-        `.energy button[data-energy="${savedEnergy}"],
-         .energy button[data-level="${savedEnergy}"]`
-      );
+  energyButtons.forEach(button => {
+    button.disabled = true;
+    button.classList.remove('selected');
 
-    if (completedButton) {
-      completedButton.classList.add('selected');
+    if (button.dataset.energy === savedEnergy) {
+      button.classList.add('selected');
     }
+  });
 
+  if (savedEnergy && energyData[savedEnergy]) {
     showMission(savedEnergy);
   }
 
-  if (complete) {
-    complete.disabled = true;
-    complete.textContent = 'Quest completata ✓';
-  }
+  completeButton.disabled = true;
+  completeButton.textContent =
+    'Quest completata ✓';
 
-  if (result) {
-    result.textContent =
-      'Oggi hai già completato la tua quest. Torna domani 🌸';
-  }
+  resultBox.innerHTML = `
+    <strong>お疲れ様でした！</strong>
+    Oggi hai già completato la tua quest.<br>
+    Torna domani 🌸
+  `;
+
+  resultBox.classList.remove('hidden');
 }
 
 
 // ─────────────────────────────
-// RIPRISTINO ALL'APERTURA
+// COMPLETA LA QUEST
 // ─────────────────────────────
 
-if (questAlreadyCompleted) {
-  lockDailyQuest();
+function completeQuest() {
+  if (!selectedEnergy || selectedReward === 0) {
+    resultBox.textContent =
+      'Prima scegli il tuo livello di energia 🌸';
+
+    resultBox.classList.remove('hidden');
+
+    return;
+  }
+
+  if (isQuestCompletedToday()) {
+    lockQuest();
+    return;
+  }
+
+  xp += selectedReward;
+
+  localStorage.setItem(
+    'kendoMamaXp',
+    String(xp)
+  );
+
+  localStorage.setItem(
+    'kendoMamaCompletedDate',
+    today
+  );
+
+  localStorage.setItem(
+    'kendoMamaCompletedEnergy',
+    selectedEnergy
+  );
+
+  updateXpDisplay();
+
+  resultBox.innerHTML = `
+    <strong>お疲れ様でした！</strong>
+    Quest completata: +${selectedReward} XP 🌸<br>
+    Hai fatto un passo. Oggi bastava quello.
+  `;
+
+  resultBox.classList.remove('hidden');
+
+  lockQuest();
+}
+
+
+// ─────────────────────────────
+// EVENTI
+// ─────────────────────────────
+
+enterButton.addEventListener(
+  'click',
+  enterDojo
+);
+
+energyButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    if (isQuestCompletedToday()) {
+      return;
+    }
+
+    selectEnergyButton(button);
+
+    const energy =
+      button.dataset.energy;
+
+    showMission(energy);
+  });
+});
+
+completeButton.addEventListener(
+  'click',
+  completeQuest
+);
+
+
+// ─────────────────────────────
+// AVVIO DELL'APP
+// ─────────────────────────────
+
+updateXpDisplay();
+
+if (isQuestCompletedToday()) {
+  lockQuest();
 }
