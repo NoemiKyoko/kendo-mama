@@ -69,9 +69,7 @@ body {
 
   background: var(--card);
 
-  border:
-    1px solid var(--border);
-
+  border: 1px solid var(--border);
   border-radius: 34px;
 
   box-shadow: var(--shadow);
@@ -88,10 +86,7 @@ body {
 ───────────────────────────── */
 
 .eyebrow {
-  margin:
-    0
-    0
-    18px;
+  margin: 0 0 18px;
 
   color: var(--muted);
 
@@ -159,13 +154,12 @@ h3 {
     serif;
 
   font-size: 1.55rem;
-
   letter-spacing: 0.08em;
 }
 
 
 .subtitle {
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 
   color: var(--muted);
 
@@ -188,6 +182,8 @@ h3 {
   justify-content: center;
 
   text-align: center;
+
+  overflow: hidden;
 }
 
 
@@ -195,18 +191,52 @@ h3 {
   display: block;
 
   width:
-    min(100%, 520px);
+    min(88%, 440px);
 
   height: auto;
 
   margin:
-    6px
+    2px
     auto
-    28px;
-
-  border-radius: 28px;
+    20px;
 
   object-fit: contain;
+
+  transform-origin: center bottom;
+
+  animation:
+    nozi-breathing
+    6s
+    ease-in-out
+    infinite;
+}
+
+
+@keyframes nozi-breathing {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg);
+  }
+
+  25% {
+    transform:
+      translateY(-3px)
+      rotate(-0.3deg);
+  }
+
+  50% {
+    transform:
+      translateY(-7px)
+      rotate(0deg);
+  }
+
+  75% {
+    transform:
+      translateY(-3px)
+      rotate(0.3deg);
+  }
 }
 
 
@@ -214,7 +244,7 @@ h3 {
   max-width: 620px;
 
   margin:
-    30px
+    26px
     auto
     0;
 
@@ -504,7 +534,7 @@ button {
 
 
 /* ─────────────────────────────
-   VERSIONE TELEFONO
+   VERSIONE TELEFONO E TABLET
 ───────────────────────────── */
 
 @media (max-width: 720px) {
@@ -536,11 +566,16 @@ button {
   }
 
 
+  .subtitle {
+    margin-bottom: 12px;
+  }
+
+
   .nozi-image {
     width:
-      min(100%, 390px);
+      min(82%, 350px);
 
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
 
 
@@ -581,6 +616,27 @@ button {
 
   .energy button {
     min-height: 82px;
+  }
+
+}
+
+
+/* ─────────────────────────────
+   ACCESSIBILITÀ:
+   DISATTIVA L'ANIMAZIONE
+   SE IL DISPOSITIVO LO RICHIEDE
+───────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .nozi-image {
+    animation: none;
+  }
+
+
+  .primary,
+  .energy button {
+    transition: none;
   }
 
 }
