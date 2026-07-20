@@ -1,11 +1,12 @@
 /* ─────────────────────────────
-   COLORI E IMPOSTAZIONI
+   COLORI
 ───────────────────────────── */
 
 :root {
   --background: #f3ede3;
   --card: #fffaf2;
   --quest: #f4eadc;
+  --soft-pink: #f9e6ec;
 
   --text: #302b28;
   --muted: #7c716a;
@@ -20,6 +21,10 @@
     0 18px 45px rgba(83, 65, 51, 0.08);
 }
 
+
+/* ─────────────────────────────
+   BASE
+───────────────────────────── */
 
 * {
   box-sizing: border-box;
@@ -46,8 +51,21 @@ body {
 }
 
 
+button {
+  font: inherit;
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+
 /* ─────────────────────────────
-   STRUTTURA PRINCIPALE
+   STRUTTURA
 ───────────────────────────── */
 
 .app {
@@ -73,11 +91,6 @@ body {
   border-radius: 34px;
 
   box-shadow: var(--shadow);
-}
-
-
-.hidden {
-  display: none !important;
 }
 
 
@@ -126,7 +139,7 @@ h1 {
 
 
 h2 {
-  margin-bottom: 0;
+  margin-bottom: 8px;
 
   font-size:
     clamp(2.1rem, 6vw, 3.3rem);
@@ -159,7 +172,7 @@ h3 {
 
 
 .subtitle {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 
   color: var(--muted);
 
@@ -187,18 +200,24 @@ h3 {
 }
 
 
-.nozi-image {
-  display: block;
+.nozi-stage {
+  position: relative;
 
   width:
     min(88%, 440px);
 
-  height: auto;
-
   margin:
     2px
     auto
-    20px;
+    14px;
+}
+
+
+.nozi-image {
+  display: block;
+
+  width: 100%;
+  height: auto;
 
   object-fit: contain;
 
@@ -213,6 +232,7 @@ h3 {
 
 
 @keyframes nozi-breathing {
+
   0%,
   100% {
     transform:
@@ -237,6 +257,136 @@ h3 {
       translateY(-3px)
       rotate(0.3deg);
   }
+
+}
+
+
+.nozi-accessory {
+  position: absolute;
+  top: 12%;
+  left: 7%;
+
+  width: 52px;
+  height: 52px;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(255, 250, 242, 0.92);
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  box-shadow:
+    0 8px 20px rgba(83, 65, 51, 0.12);
+
+  font-size: 1.65rem;
+}
+
+
+.nozi-wink {
+  position: absolute;
+  top: 35%;
+  right: 7%;
+
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(255, 250, 242, 0.95);
+
+  border: 1px solid var(--pink);
+  border-radius: 50%;
+
+  box-shadow:
+    0 10px 24px rgba(83, 65, 51, 0.14);
+
+  font-size: 1.8rem;
+
+  opacity: 0;
+  transform:
+    scale(0.3)
+    rotate(-15deg);
+
+  pointer-events: none;
+}
+
+
+.nozi-wink.show {
+  animation:
+    wink-bubble
+    1.5s
+    ease
+    forwards;
+}
+
+
+@keyframes wink-bubble {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.3)
+      rotate(-15deg);
+  }
+
+  20% {
+    opacity: 1;
+
+    transform:
+      scale(1.08)
+      rotate(4deg);
+  }
+
+  70% {
+    opacity: 1;
+
+    transform:
+      scale(1)
+      rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      scale(0.75)
+      translateY(-10px);
+  }
+
+}
+
+
+.welcome-level {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+
+.welcome-level-label {
+  color: var(--muted);
+
+  font-size: 0.92rem;
+}
+
+
+.welcome-level strong {
+  padding:
+    8px
+    13px;
+
+  background: var(--soft-pink);
+
+  border: 1px solid var(--pink);
+  border-radius: 999px;
 }
 
 
@@ -256,18 +406,8 @@ h3 {
 
 
 /* ─────────────────────────────
-   PULSANTI GENERALI
+   PULSANTI
 ───────────────────────────── */
-
-button {
-  font: inherit;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color:
-    transparent;
-}
-
 
 .primary {
   min-height: 58px;
@@ -303,13 +443,12 @@ button {
 
 .primary:disabled {
   cursor: default;
-
   opacity: 0.7;
 }
 
 
 /* ─────────────────────────────
-   TESTATA DEL DOJO
+   TESTATA DOJO
 ───────────────────────────── */
 
 .top {
@@ -324,9 +463,37 @@ button {
 }
 
 
-.xp {
+.level-name {
+  display: inline-block;
+
+  margin: 12px 0 0;
+
+  padding:
+    8px
+    13px;
+
+  color: var(--muted);
+  background: var(--soft-pink);
+
+  border: 1px solid var(--pink);
+  border-radius: 999px;
+
+  font-weight: 700;
+}
+
+
+.xp-box {
   flex-shrink: 0;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+.xp {
   min-width: 105px;
 
   padding:
@@ -344,8 +511,20 @@ button {
 }
 
 
+.next-level {
+  max-width: 150px;
+
+  color: var(--muted);
+
+  text-align: center;
+
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+
 /* ─────────────────────────────
-   RIQUADRO QUEST
+   QUEST
 ───────────────────────────── */
 
 .quest {
@@ -354,9 +533,7 @@ button {
 
   background: var(--quest);
 
-  border:
-    1px solid var(--border);
-
+  border: 1px solid var(--border);
   border-radius: 28px;
 }
 
@@ -370,7 +547,7 @@ button {
 
 
 /* ─────────────────────────────
-   LIVELLI DI ENERGIA
+   ENERGIA
 ───────────────────────────── */
 
 .energy {
@@ -393,9 +570,7 @@ button {
   color: var(--text);
   background: var(--button);
 
-  border:
-    1px solid var(--border);
-
+  border: 1px solid var(--border);
   border-radius: 24px;
 
   display: flex;
@@ -414,8 +589,7 @@ button {
 
 
 .energy button:hover {
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 }
 
 
@@ -429,7 +603,6 @@ button {
 
 .energy button:disabled {
   cursor: default;
-
   opacity: 0.65;
 }
 
@@ -453,21 +626,18 @@ button {
 
 
 /* ─────────────────────────────
-   MISSIONE SCELTA
+   MISSIONE
 ───────────────────────────── */
 
 .mission {
   margin-top: 26px;
-
   padding: 24px;
 
   text-align: center;
 
   background: var(--card);
 
-  border:
-    1px solid var(--border);
-
+  border: 1px solid var(--border);
   border-radius: 24px;
 }
 
@@ -477,13 +647,12 @@ button {
 
   font-size: 1.12rem;
   font-weight: 600;
-
   line-height: 1.5;
 }
 
 
 /* ─────────────────────────────
-   RISULTATO FINALE
+   RISULTATO
 ───────────────────────────── */
 
 .result {
@@ -495,11 +664,9 @@ button {
 
   text-align: center;
 
-  background: #f9e6ec;
+  background: var(--soft-pink);
 
-  border:
-    1px solid var(--pink);
-
+  border: 1px solid var(--pink);
   border-radius: 24px;
 
   font-size: 1.05rem;
@@ -517,7 +684,267 @@ button {
 
 
 /* ─────────────────────────────
-   NOTA FINALE
+   SEZIONI DOJO
+───────────────────────────── */
+
+.dashboard-section {
+  margin-top: 28px;
+
+  padding:
+    clamp(22px, 4vw, 32px);
+
+  background: #fffdf8;
+
+  border: 1px solid var(--border);
+  border-radius: 28px;
+}
+
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  margin-bottom: 22px;
+}
+
+
+.section-heading h3 {
+  margin-bottom: 0;
+}
+
+
+.section-kicker {
+  margin-bottom: 6px;
+
+  color: var(--muted);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+
+.streak,
+.badge-counter {
+  flex-shrink: 0;
+
+  padding:
+    10px
+    14px;
+
+  background: var(--quest);
+
+  border-radius: 999px;
+
+  font-weight: 800;
+}
+
+
+/* ─────────────────────────────
+   CALENDARIO
+───────────────────────────── */
+
+.week-calendar {
+  display: grid;
+
+  grid-template-columns:
+    repeat(7, 1fr);
+
+  gap: 9px;
+}
+
+
+.day-card {
+  min-width: 0;
+
+  padding:
+    13px
+    5px;
+
+  text-align: center;
+
+  background: var(--button);
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+
+.day-card.today {
+  border-color: var(--pink);
+
+  box-shadow:
+    0 0 0 2px var(--pink);
+}
+
+
+.day-name {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--muted);
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+
+.day-number {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+
+.day-status {
+  display: block;
+
+  font-size: 1.2rem;
+}
+
+
+/* ─────────────────────────────
+   BADGE
+───────────────────────────── */
+
+.badges {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 12px;
+}
+
+
+.badge {
+  min-height: 138px;
+
+  padding:
+    18px
+    12px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  text-align: center;
+
+  background: var(--button);
+
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+
+.badge.locked {
+  filter: grayscale(1);
+  opacity: 0.42;
+}
+
+
+.badge.unlocked {
+  border-color: var(--pink);
+
+  box-shadow:
+    0 0 0 2px rgba(237, 169, 189, 0.4);
+}
+
+
+.badge-icon {
+  font-size: 2rem;
+}
+
+
+.badge-title {
+  font-weight: 800;
+}
+
+
+.badge-description {
+  color: var(--muted);
+
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+
+/* ─────────────────────────────
+   PETALI
+───────────────────────────── */
+
+.petal-layer {
+  position: fixed;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  z-index: 9999;
+}
+
+
+.falling-petal {
+  position: absolute;
+  top: -60px;
+
+  font-size: 1.8rem;
+
+  animation:
+    petal-fall
+    var(--duration)
+    ease-in
+    forwards;
+}
+
+
+@keyframes petal-fall {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate3d(0, -20px, 0)
+      rotate(0deg);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate3d(
+        var(--drift),
+        110vh,
+        0
+      )
+      rotate(520deg);
+  }
+
+}
+
+
+/* ─────────────────────────────
+   NOTA
 ───────────────────────────── */
 
 .note {
@@ -534,7 +961,7 @@ button {
 
 
 /* ─────────────────────────────
-   VERSIONE TELEFONO E TABLET
+   TELEFONO E TABLET
 ───────────────────────────── */
 
 @media (max-width: 720px) {
@@ -567,22 +994,29 @@ button {
 
 
   .subtitle {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
 
-  .nozi-image {
+  .nozi-stage {
     width:
       min(82%, 350px);
-
-    margin-bottom: 18px;
   }
 
 
-  .hero-note {
-    margin-top: 24px;
+  .nozi-accessory {
+    width: 44px;
+    height: 44px;
 
-    font-size: 0.8rem;
+    font-size: 1.35rem;
+  }
+
+
+  .nozi-wink {
+    width: 50px;
+    height: 50px;
+
+    font-size: 1.55rem;
   }
 
 
@@ -602,6 +1036,11 @@ button {
   }
 
 
+  .next-level {
+    max-width: 105px;
+  }
+
+
   .quest {
     padding:
       22px
@@ -618,18 +1057,48 @@ button {
     min-height: 82px;
   }
 
+
+  .week-calendar {
+    gap: 5px;
+  }
+
+
+  .day-card {
+    padding:
+      11px
+      2px;
+
+    border-radius: 14px;
+  }
+
+
+  .day-name {
+    font-size: 0.65rem;
+  }
+
+
+  .day-number {
+    font-size: 0.88rem;
+  }
+
+
+  .badges {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
 }
 
 
 /* ─────────────────────────────
-   ACCESSIBILITÀ:
-   DISATTIVA L'ANIMAZIONE
-   SE IL DISPOSITIVO LO RICHIEDE
+   ACCESSIBILITÀ
 ───────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
 
-  .nozi-image {
+  .nozi-image,
+  .falling-petal,
+  .nozi-wink.show {
     animation: none;
   }
 
