@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="110" fill="#f7f1e6"/>
+<circle cx="256" cy="268" r="150" fill="#fffaf2" stroke="#2f2a27" stroke-width="16"/>
+<path d="M180 300h152l-76 105z" fill="#26364b"/>
+<path d="M168 175q88-82 176 0v85H168z" fill="#26364b"/>
+<text x="256" y="235" text-anchor="middle" font-size="76" font-family="sans-serif" font-weight="700" fill="white">面</text>
+<circle cx="218" cy="292" r="13" fill="#2f2a27"/><circle cx="294" cy="292" r="13" fill="#2f2a27"/>
+<path d="M225 334q31 26 62 0" fill="none" stroke="#2f2a27" stroke-width="12" stroke-linecap="round"/>
+</svg>

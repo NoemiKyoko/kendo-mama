@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f1e6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Kendō Mama">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <title>Kendō Mama</title>
+</head>
+<body>
+  <main class="app">
+    <section class="card hero" id="welcome">
+      <p class="eyebrow">v0.1 · First Step</p>
+      <h1>Kendō Mama</h1>
+      <p class="jp">継続は力なり</p>
+      <p class="subtitle">La continuità è forza.</p>
+
+      <div class="nozi" aria-label="Nozi kendoka">
+        <div class="men">面</div>
+        <div class="rice">🍙</div>
+        <div class="shinai">╱</div>
+      </div>
+
+      <button class="primary" id="enter">🌸 Entra nel Dojo</button>
+    </section>
+
+    <section class="card hidden" id="dojo">
+      <div class="top">
+        <div>
+          <p class="eyebrow">Dojo di Noemi</p>
+          <h2>La quest di oggi</h2>
+        </div>
+        <div class="xp"><span id="xp">0</span> XP</div>
+      </div>
+
+      <div class="quest">
+        <h3>⚔️ Primo passo</h3>
+        <p>Scegli il tuo livello di energia. Ogni scelta è valida.</p>
+
+        <div class="energy">
+          <button data-minutes="4" data-xp="10">🌱 Bassa<br><small>4 minuti</small></button>
+          <button data-minutes="9" data-xp="20">🌸 Media<br><small>9 minuti</small></button>
+          <button data-minutes="15" data-xp="30">⚔️ Alta<br><small>15 minuti</small></button>
+        </div>
+
+        <div class="mission hidden" id="mission">
+          <p id="missionText"></p>
+          <button class="primary" id="complete">Quest completata</button>
+        </div>
+      </div>
+
+      <div class="result hidden" id="result">
+        <strong>お疲れ様でした！</strong>
+        <p>Hai fatto un passo. Oggi bastava quello.</p>
+      </div>
+
+      <p class="note">Prototipo personale: ascolta sempre le indicazioni del medico o dell’ostetrica.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
