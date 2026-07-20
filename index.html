@@ -2,9 +2,13 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f7f1e6">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#f7f1e6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Kendō Mama">
 
@@ -17,111 +21,157 @@
 
 <body>
 
-<main class="app">
+  <main class="app">
 
-  <section class="card hero" id="welcome">
+    <!-- SCHERMATA INIZIALE -->
 
-    <p class="eyebrow">v0.1 · First Step</p>
+    <section class="card hero" id="welcome">
 
-    <h1>Kendō Mama</h1>
-
-    <p class="jp">継続は力なり</p>
-
-    <p class="subtitle">
-      La continuità è forza.
-    </p>
-
-    <div class="nozi">
-      <div class="men">面</div>
-      <div class="rice">🍙</div>
-      <div class="shinai">╱</div>
-    </div>
-
-    <button class="primary" id="enter">
-      🌸 Entra nel Dojo
-    </button>
-
-  </section>
-
-
-
-  <section class="card hidden" id="dojo">
-
-    <div class="top">
-
-      <div>
-        <p class="eyebrow">Dojo di Noemi</p>
-        <h2>La quest di oggi</h2>
-      </div>
-
-      <div class="xp">
-        <span id="xp">0</span> XP
-      </div>
-
-    </div>
-
-
-
-    <div class="quest">
-
-      <h3>⚔️ Primo passo</h3>
-
-      <p>
-        Scegli il tuo livello di energia.
-        Ogni scelta è valida.
+      <p class="eyebrow">
+        v0.2 · First Step
       </p>
 
+      <h1>Kendō Mama</h1>
 
-      <div class="energy">
+      <p class="jp">
+        継続は力なり
+      </p>
 
-        <button data-energy="low">
-          🌱 Bassa
-          <br>
-          <small>4 minuti</small>
-        </button>
+      <p class="subtitle">
+        La continuità è forza.
+      </p>
 
-        <button data-energy="medium">
-          🌸 Media
-          <br>
-          <small>9 minuti</small>
-        </button>
-
-        <button data-energy="high">
-          ⚔️ Alta
-          <br>
-          <small>15 minuti</small>
-        </button>
-
+      <div class="nozi" aria-label="Nozi kendoka">
+        <div class="men">面</div>
+        <div class="rice">🍙</div>
+        <div class="shinai">╱</div>
       </div>
 
+      <button class="primary" id="enter">
+        🌸 Entra nel Dojo
+      </button>
+
+    </section>
 
 
-      <div class="mission hidden" id="mission">
+    <!-- DOJO -->
 
-        <p id="missionText"></p>
+    <section class="card hidden" id="dojo">
 
-        <button class="primary" id="complete">
-          Quest completata
-        </button>
+      <header class="top">
 
-      </div>
+        <div>
+          <p class="eyebrow">
+            Dojo di Noemi
+          </p>
 
-    </div>
+          <h2>
+            La quest di oggi
+          </h2>
+        </div>
+
+        <div class="xp">
+          <span id="xp">0</span> XP
+        </div>
+
+      </header>
 
 
+      <section class="quest">
 
-    <div class="result" id="result"></div>
+        <h3>
+          ⚔️ Primo passo
+        </h3>
 
-    <p class="note">
-      Prototipo personale:
-      ascolta sempre le indicazioni del medico o dell’ostetrica.
-    </p>
+        <p class="quest-intro">
+          Scegli il tuo livello di energia.
+          Ogni scelta è valida.
+        </p>
 
-  </section>
 
-</main>
+        <div class="energy">
 
-<script src="script.js"></script>
+          <button
+            type="button"
+            data-energy="low"
+          >
+            <span class="energy-name">
+              🌱 Bassa
+            </span>
+
+            <small>
+              4 minuti
+            </small>
+          </button>
+
+
+          <button
+            type="button"
+            data-energy="medium"
+          >
+            <span class="energy-name">
+              🌸 Media
+            </span>
+
+            <small>
+              9 minuti
+            </small>
+          </button>
+
+
+          <button
+            type="button"
+            data-energy="high"
+          >
+            <span class="energy-name">
+              ⚔️ Alta
+            </span>
+
+            <small>
+              15 minuti
+            </small>
+          </button>
+
+        </div>
+
+
+        <div
+          class="mission hidden"
+          id="mission"
+        >
+
+          <p id="missionText"></p>
+
+          <button
+            type="button"
+            class="primary"
+            id="complete"
+          >
+            Quest completata
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <div
+        class="result hidden"
+        id="result"
+      ></div>
+
+
+      <p class="note">
+        Prototipo personale: ascolta sempre le indicazioni
+        del medico o dell’ostetrica.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <script src="script.js"></script>
 
 </body>
 </html>
