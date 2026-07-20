@@ -21,8 +21,6 @@ xpEl.textContent = xp;
 
 // ─────────────────────────────
 // INGRESSO NEL DOJO
-// Funziona anche se la schermata iniziale
-// è stata eliminata.
 // ─────────────────────────────
 
 if (enter && welcome && dojo) {
@@ -34,46 +32,34 @@ if (enter && welcome && dojo) {
 
 
 // ─────────────────────────────
-// MISSIONI DEL GIORNO
+// MISSIONI CASUALI
 // ─────────────────────────────
 
-const missions = [
-  '🌸 Respirazione profonda',
-  '🤰 Mobilità dolce del bacino',
-  '🧘 Stretching gentile',
-  '🚶 Passeggiata tranquilla',
-  '💧 Pausa di idratazione',
-  '❤️ Momento di rilassamento',
-  '🌿 Allungamento della schiena',
-  '🍃 Dieci respiri lenti'
-];
+const missions = {
+  4: [
+    '💧 Bevi lentamente un bicchiere d’acqua',
+    '🌬️ Fai qualche respiro lento e profondo',
+    '🧘 Sciogli delicatamente collo e spalle',
+    '🚶 Cammina tranquillamente per casa',
+    '🌱 Concediti una piccola pausa consapevole'
+  ],
 
+  9: [
+    '🧘 Esegui una breve sessione di stretching',
+    '🚶 Fai una passeggiata tranquilla',
+    '🌸 Mobilizza dolcemente braccia, spalle e schiena',
+    '💧 Alterna movimento leggero e idratazione',
+    '🌬️ Respira profondamente mentre fai mobilità'
+  ],
 
-// Creiamo una data nel formato anno-mese-giorno.
-// In questo modo la missione cambia ogni giorno.
-
-const now = new Date();
-
-const today = [
-  now.getFullYear(),
-  String(now.getMonth() + 1).padStart(2, '0'),
-  String(now.getDate()).padStart(2, '0')
-].join('-');
-
-let savedDay = localStorage.getItem('kendoMissionDay');
-let savedMission = localStorage.getItem('kendoMission');
-
-
-// Se è un nuovo giorno, scegliamo una nuova missione.
-
-if (savedDay !== today || !savedMission) {
-  const randomIndex = Math.floor(Math.random() * missions.length);
-
-  savedMission = missions[randomIndex];
-
-  localStorage.setItem('kendoMissionDay', today);
-  localStorage.setItem('kendoMission', savedMission);
-}
+  15: [
+    '🥋 Esegui una breve sessione di suburi controllati',
+    '🚶 Fai una camminata a ritmo sostenuto',
+    '💪 Esegui una sessione leggera di rinforzo',
+    '🧘 Combina mobilità, stretching e respirazione',
+    '⚔️ Ripassa lentamente postura e movimenti di base'
+  ]
+};
 
 
 // ─────────────────────────────
@@ -83,37 +69,30 @@ if (savedDay !== today || !savedMission) {
 document.querySelectorAll('.energy button').forEach(button => {
   button.addEventListener('click', () => {
 
-    // Togliamo la selezione dagli altri pulsanti.
-
     document
       .querySelectorAll('.energy button')
       .forEach(otherButton => {
         otherButton.classList.remove('selected');
       });
 
-
-    // Evidenziamo il pulsante scelto.
-
     button.classList.add('selected');
 
-
-    // Leggiamo gli XP assegnati al pulsante.
+    const minutes = Number(button.dataset.minutes);
 
     reward = Number(button.dataset.xp);
 
+    const availableMissions = missions[minutes];
 
-    // Mostriamo la missione con la durata scelta.
+    const randomIndex =
+      Math.floor(Math.random() * availableMissions.length);
+
+    const randomMission =
+      availableMissions[randomIndex];
 
     missionText.textContent =
-      `${savedMission} • ${button.dataset.minutes} minuti`;
-
-
-    // Facciamo apparire la missione.
+      `${randomMission} • ${minutes} minuti`;
 
     mission.classList.remove('hidden');
-
-
-    // Puliamo l'eventuale messaggio precedente.
 
     result.textContent = '';
   });
@@ -126,9 +105,6 @@ document.querySelectorAll('.energy button').forEach(button => {
 
 complete.addEventListener('click', () => {
 
-  // Se non è stato scelto un livello,
-  // non assegniamo XP.
-
   if (reward === 0) {
     result.textContent =
       'Prima scegli il tuo livello di energia 🌱';
@@ -136,30 +112,14 @@ complete.addEventListener('click', () => {
     return;
   }
 
-
-  // Aggiungiamo la ricompensa agli XP.
-
   xp += reward;
-
-
-  // Salviamo gli XP nel dispositivo.
 
   localStorage.setItem('kendoMamaXp', xp);
 
-
-  // Aggiorniamo il numero visibile.
-
   xpEl.textContent = xp;
-
-
-  // Mostriamo il messaggio finale.
 
   result.textContent =
     `Quest completata! Hai guadagnato ${reward} XP 🌸`;
-
-
-  // Impediamo di premere due volte per sbaglio
-  // senza scegliere nuovamente una missione.
 
   reward = 0;
 
