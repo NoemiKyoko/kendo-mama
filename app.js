@@ -9,6 +9,7 @@ const result = document.getElementById('result');
 
 let xp = Number(localStorage.getItem('kendoMamaXp') || 0);
 let reward = 0;
+
 xpEl.textContent = xp;
 
 enter.addEventListener('click', () => {
@@ -18,11 +19,17 @@ enter.addEventListener('click', () => {
 
 document.querySelectorAll('.energy button').forEach(button => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('.energy button').forEach(b => b.classList.remove('selected'));
+    document
+      .querySelectorAll('.energy button')
+      .forEach(b => b.classList.remove('selected'));
+
     button.classList.add('selected');
+
     reward = Number(button.dataset.xp);
+
     missionText.textContent =
       `Missione gentile da ${button.dataset.minutes} minuti: camminata sul posto, mobilità dolce delle spalle e respirazione. Fermati se qualcosa non ti sembra giusto.`;
+
     mission.classList.remove('hidden');
     result.classList.add('hidden');
   });
@@ -35,6 +42,7 @@ complete.addEventListener('click', () => {
   }
 
   xp += reward;
+
   localStorage.setItem('kendoMamaXp', String(xp));
   xpEl.textContent = xp;
 
@@ -42,26 +50,31 @@ complete.addEventListener('click', () => {
   result.scrollIntoView({ behavior: 'smooth' });
 
   complete.disabled = true;
+
   complete.insertAdjacentHTML(
-  'afterend',
-  '<button id="newQuest">Nuova quest 🌸</button>'
-);
+    'afterend',
+    '<button id="newQuest">Nuova quest 🌸</button>'
+  );
 
-document.getElementById('newQuest').addEventListener('click', () => {
-  reward = 0;
+  document.getElementById('newQuest').addEventListener('click', () => {
+    reward = 0;
 
-  mission.classList.add('hidden');
-  result.classList.add('hidden');
+    mission.classList.add('hidden');
+    result.classList.add('hidden');
 
-  document
-    .querySelectorAll('.energy button')
-    .forEach(b => b.classList.remove('selected'));
+    document
+      .querySelectorAll('.energy button')
+      .forEach(b => b.classList.remove('selected'));
 
-  complete.disabled = false;
-  complete.textContent = 'Quest completata';
-  document.getElementById('newQuest').remove();
+    complete.disabled = false;
+    complete.textContent = 'Quest completata';
+
+    document.getElementById('newQuest').remove();
+  });
 });
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js');
+  });
 }
