@@ -1,310 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
-
 <head>
-  <meta charset="utf-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  >
-
-  <meta name="theme-color" content="#f7f1e6">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Kendō Mama">
-
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="icon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f7dce5">
+  <meta name="description" content="Kendō Mama: il tuo piccolo dojo quotidiano.">
+  <title>Kendō Mama — Dojo Update</title>
   <link rel="stylesheet" href="styles.css">
-
-  <title>Kendō Mama</title>
 </head>
-
 <body>
-
-  <main class="app">
-
-    <!-- SCHERMATA INIZIALE -->
-
-    <section class="card hero" id="welcome">
-
-      <p class="eyebrow">
-        v0.3 · Il cammino
-      </p>
-
+  <div id="petalLayer" class="petal-layer" aria-hidden="true"></div>
+  <section id="welcome" class="screen welcome-screen">
+    <div class="welcome-card">
+      <p class="eyebrow">DOJO UPDATE · v0.4</p>
+      <div class="nozi-stage" aria-label="Nozi, la mascotte di Kendō Mama">
+        <div id="winkBubble" class="wink-bubble" aria-hidden="true">✨</div>
+        <div id="accessory" class="accessory" aria-hidden="true">🌱</div>
+        <img id="noziImage" class="nozi-image" src="nozi.png" alt="Nozi">
+        <div id="noziFallback" class="nozi-fallback hidden" aria-hidden="true">🍙</div>
+      </div>
       <h1>Kendō Mama</h1>
-
-      <p class="jp">
-        継続は力なり
-      </p>
-
-      <p class="subtitle">
-        La continuità è forza.
-      </p>
-
-
-      <div class="nozi-stage">
-
-        <img
-          class="nozi-image"
-          src="nozi-kendo-mama.png"
-          alt="Nozi, la mascotte kendoka di Kendō Mama"
-        >
-
-        <div
-          class="nozi-accessory"
-          id="noziAccessory"
-          aria-hidden="true"
-        >
-          🌱
-        </div>
-
-        <div
-          class="nozi-wink"
-          id="noziWink"
-          aria-hidden="true"
-        >
-          😉
-        </div>
-
-      </div>
-
-
-      <div class="welcome-level">
-
-        <span class="welcome-level-label">
-          Il tuo grado
-        </span>
-
-        <strong id="welcomeLevel">
-          Novizia 🌱
-        </strong>
-
-      </div>
-
-
-      <button
-        type="button"
-        class="primary"
-        id="enter"
-      >
-        🌸 Entra nel Dojo
-      </button>
-
-
-      <p class="hero-note">
-        Prototipo personale: ascolta sempre le indicazioni
-        del medico o dell’ostetrica.
-      </p>
-
+      <p id="welcomeMessage" class="welcome-message">Non serve essere perfetta.<br>Basta presentarsi sul tatami.</p>
+      <button id="enter" class="primary-button" type="button">Entra nel dojo</button>
+    </div>
+  </section>
+  <main id="dojo" class="screen dojo hidden">
+    <header class="dojo-header">
+      <div><p class="eyebrow">KENDŌ MAMA · v0.4</p><h1>Il tuo dojo</h1></div>
+      <button id="homeButton" class="icon-button" type="button" aria-label="Torna alla schermata iniziale">🍙</button>
+    </header>
+    <section class="dashboard" aria-label="I tuoi progressi">
+      <article class="stat-card"><span class="stat-icon">✨</span><div><span class="stat-label">Esperienza</span><strong><span id="xp">0</span> XP</strong></div></article>
+      <article class="stat-card"><span id="levelIcon" class="stat-icon">🌱</span><div><span class="stat-label">Livello</span><strong id="levelName">Novizio</strong></div></article>
+      <article class="stat-card"><span class="stat-icon">🔥</span><div><span class="stat-label">Serie</span><strong><span id="streak">0</span> giorni</strong></div></article>
     </section>
-
-
-    <!-- DOJO -->
-
-    <section class="card hidden" id="dojo">
-
-      <header class="top">
-
-        <div>
-
-          <p class="eyebrow">
-            Dojo di Noemi
-          </p>
-
-          <h2>
-            La quest di oggi
-          </h2>
-
-          <p class="level-name" id="levelName">
-            Novizia 🌱
-          </p>
-
-        </div>
-
-
-        <div class="xp-box">
-
-          <div class="xp">
-            <span id="xp">0</span> XP
-          </div>
-
-          <div class="next-level" id="nextLevel">
-            Prossimo grado: 50 XP
-          </div>
-
-        </div>
-
-      </header>
-
-
-      <section class="quest">
-
-        <h3>
-          ⚔️ Primo passo
-        </h3>
-
-        <p class="quest-intro">
-          Scegli il tuo livello di energia.
-          Ogni scelta è valida.
-        </p>
-
-
-        <div class="energy">
-
-          <button
-            type="button"
-            data-energy="low"
-          >
-            <span class="energy-name">
-              🌱 Bassa
-            </span>
-
-            <small>
-              4 minuti · 10 XP
-            </small>
-          </button>
-
-
-          <button
-            type="button"
-            data-energy="medium"
-          >
-            <span class="energy-name">
-              🌸 Media
-            </span>
-
-            <small>
-              9 minuti · 20 XP
-            </small>
-          </button>
-
-
-          <button
-            type="button"
-            data-energy="high"
-          >
-            <span class="energy-name">
-              ⚔️ Alta
-            </span>
-
-            <small>
-              15 minuti · 30 XP
-            </small>
-          </button>
-
-        </div>
-
-
-        <div
-          class="mission hidden"
-          id="mission"
-        >
-
-          <p id="missionText"></p>
-
-          <button
-            type="button"
-            class="primary"
-            id="complete"
-          >
-            Quest completata
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <div
-        class="result hidden"
-        id="result"
-      ></div>
-
-
-      <!-- CALENDARIO -->
-
-      <section class="dashboard-section">
-
-        <div class="section-heading">
-
-          <div>
-            <p class="section-kicker">
-              Costanza
-            </p>
-
-            <h3>
-              Gli ultimi 7 giorni
-            </h3>
-          </div>
-
-          <div class="streak">
-            🔥 <span id="streak">0</span>
-          </div>
-
-        </div>
-
-
-        <div
-          class="week-calendar"
-          id="weekCalendar"
-        ></div>
-
-      </section>
-
-
-      <!-- BADGE -->
-
-      <section class="dashboard-section">
-
-        <div class="section-heading">
-
-          <div>
-            <p class="section-kicker">
-              Traguardi
-            </p>
-
-            <h3>
-              I tuoi badge
-            </h3>
-          </div>
-
-          <div class="badge-counter">
-            <span id="badgeCount">0</span>/6
-          </div>
-
-        </div>
-
-
-        <div
-          class="badges"
-          id="badges"
-        ></div>
-
-      </section>
-
-
-      <p class="note">
-        Prototipo personale: ascolta sempre le indicazioni
-        del medico o dell’ostetrica.
-      </p>
-
+    <section class="dojo-card">
+      <div class="section-heading"><div><p class="section-kicker">COME STAI OGGI?</p><h2>Scegli la tua energia</h2></div><span class="heading-decoration">🌸</span></div>
+      <p class="section-description">Nozi sceglierà un allenamento adatto al ritmo della tua giornata.</p>
+      <div class="energy" role="group" aria-label="Scegli il livello di energia">
+        <button type="button" data-energy="low"><span class="energy-icon">🌱</span><span class="energy-title">Bassa</span><span class="energy-time">5–10 min</span></button>
+        <button type="button" data-energy="medium"><span class="energy-icon">🌸</span><span class="energy-title">Media</span><span class="energy-time">10–15 min</span></button>
+        <button type="button" data-energy="high"><span class="energy-icon">⚔️</span><span class="energy-title">Alta</span><span class="energy-time">16–20 min</span></button>
+      </div>
     </section>
-
+    <section id="mission" class="dojo-card mission-card hidden" aria-live="polite">
+      <div class="nozi-message"><span class="nozi-message-icon">🍙</span><div><p class="section-kicker">NOZI DICE</p><p id="noziMessage">Ho scelto una missione per te.</p></div></div>
+      <div class="mission-heading"><div><p class="section-kicker">MISSIONE DI OGGI</p><h2 id="videoTitle">Allenamento</h2></div><span id="missionEnergyIcon" class="mission-energy-icon">🌱</span></div>
+      <p id="videoNote" class="video-note"></p>
+      <div class="mission-meta"><span>⏱️ <strong id="videoDuration">5 minuti</strong></span><span>✨ <strong id="rewardText">+5 XP</strong></span><span>🎥 <strong id="videoChannel">Canale</strong></span></div>
+      <div class="safety-note"><span>🤍</span><p>Segui soltanto attività approvate dal professionista che segue la tua gravidanza. Fermati in presenza di dolore, capogiri, sanguinamento, perdite, dolore toracico, fiato corto anomalo o contrazioni dolorose.</p></div>
+      <div class="training-actions"><button id="startTraining" class="primary-button" type="button">▶️ Inizia allenamento</button><button id="changeTraining" class="secondary-button" type="button">🔄 Cambia video</button></div>
+      <div id="videoArea" class="video-area hidden">
+        <div class="video-frame-wrap"><iframe id="videoFrame" title="Allenamento Kendō Mama" src="" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+        <div class="training-status"><div id="timerIcon" class="timer-icon">⏱️</div><div><span class="stat-label">Allenamento</span><strong id="timerText">Video avviato</strong></div></div>
+        <a id="youtubeLink" class="secondary-button link-button" href="#" target="_blank" rel="noopener noreferrer">Apri su YouTube</a>
+      </div>
+      <button id="complete" class="complete-button hidden" type="button">Quest completata</button>
+      <div id="result" class="result hidden" role="status"></div>
+    </section>
+    <section class="dojo-card"><div class="section-heading"><div><p class="section-kicker">COSTANZA GENTILE</p><h2>Gli ultimi sette giorni</h2></div><span class="heading-decoration">📅</span></div><div id="calendar" class="calendar" aria-label="Calendario degli allenamenti"></div></section>
+    <section class="dojo-card"><div class="section-heading"><div><p class="section-kicker">PICCOLE CONQUISTE</p><h2>I tuoi badge</h2></div><span class="heading-decoration">🏅</span></div><div id="badges" class="badges"></div></section>
+    <footer class="app-footer">Costruito un piccolo passo alla volta 🍙🌸</footer>
   </main>
-
-
-  <!-- PETALI DELLA CELEBRAZIONE -->
-
-  <div
-    class="petal-layer"
-    id="petalLayer"
-    aria-hidden="true"
-  ></div>
-
-
+  <script src="videos.js"></script>
   <script src="app.js"></script>
-
 </body>
-
 </html>
